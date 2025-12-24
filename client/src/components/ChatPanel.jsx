@@ -11,6 +11,7 @@ import {
   Maximize2,
   Minimize2
 } from 'lucide-react';
+import { api } from '../config';
 
 const suggestedQuestions = [
   "What industry produces the most emissions?",
@@ -50,7 +51,7 @@ export default function ChatPanel({ onClose }) {
         content: m.content
       }));
 
-      const response = await fetch('/api/chat', {
+      const response = await fetch(api.chat, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -13,6 +13,7 @@ import chatRouter from './routes/chat.js';
 import searchRouter from './routes/search.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { existsSync } from 'fs';
 import { initializeCountryNames } from './services/emissionsApi.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -21,8 +22,16 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Middleware
-app.use(cors());
+// Middleware - Configure CORS for production
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    /\.vercel\.app$/,
+    /\.onrender\.com$/
+  ],
+  credentials: true
+}));
 app.use(express.json());
 
 // API Routes
@@ -35,11 +44,12 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Serve static files in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/dist')));
+// Serve static files in production (only if client/dist exists)
+const clientDistPath = path.join(__dirname, '../client/dist');
+if (process.env.NODE_ENV === 'production' && existsSync(clientDistPath)) {
+  app.use(express.static(clientDistPath));
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+    res.sendFile(path.join(clientDistPath, 'index.html'));
   });
 }
 

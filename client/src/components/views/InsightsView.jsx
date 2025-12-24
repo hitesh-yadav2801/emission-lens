@@ -9,6 +9,7 @@ import {
   Clock,
   RefreshCw
 } from 'lucide-react';
+import { api } from '../../config';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -46,7 +47,7 @@ export default function InsightsView() {
     setQuery(searchQuery);
 
     try {
-      const response = await fetch('/api/search', {
+      const response = await fetch(api.search, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: searchQuery })

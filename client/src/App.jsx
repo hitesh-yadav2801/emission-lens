@@ -5,6 +5,7 @@ import Dashboard from './components/Dashboard';
 import ChatPanel from './components/ChatPanel';
 import YearFilter from './components/YearFilter';
 import { MessageCircle, X } from 'lucide-react';
+import { api } from './config';
 
 function App() {
   const [activeView, setActiveView] = useState('overview');
@@ -28,7 +29,7 @@ function App() {
 
   const fetchAvailableYears = async () => {
     try {
-      const response = await fetch('/api/emissions/years');
+      const response = await fetch(api.emissions.years);
       const data = await response.json();
       setAvailableYears(data.availableYears || [2019, 2020, 2021, 2022, 2023]);
     } catch (error) {
@@ -46,12 +47,12 @@ function App() {
       });
 
       const [summary, industries, sectors, trends, regions, countries] = await Promise.all([
-        fetch(`/api/emissions/summary?${params}`).then(r => r.json()),
-        fetch(`/api/emissions/by-industry?${params}`).then(r => r.json()),
-        fetch(`/api/emissions/by-sector?${params}`).then(r => r.json()),
-        fetch(`/api/emissions/trends?startYear=${Math.min(...availableYears) || 2019}&endYear=${yearRange.to}`).then(r => r.json()),
-        fetch(`/api/emissions/by-region?${params}`).then(r => r.json()),
-        fetch(`/api/emissions/countries?${params}&limit=20`).then(r => r.json()),
+        fetch(`${api.emissions.summary}?${params}`).then(r => r.json()),
+        fetch(`${api.emissions.byIndustry}?${params}`).then(r => r.json()),
+        fetch(`${api.emissions.bySector}?${params}`).then(r => r.json()),
+        fetch(`${api.emissions.trends}?startYear=${Math.min(...availableYears) || 2019}&endYear=${yearRange.to}`).then(r => r.json()),
+        fetch(`${api.emissions.byRegion}?${params}`).then(r => r.json()),
+        fetch(`${api.emissions.countries}?${params}&limit=20`).then(r => r.json()),
       ]);
 
       setEmissionsData({
