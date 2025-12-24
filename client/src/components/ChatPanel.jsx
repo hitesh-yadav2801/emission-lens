@@ -97,8 +97,8 @@ export default function ChatPanel({ onClose }) {
       animate={{ x: 0, opacity: 1 }}
       exit={{ x: '100%', opacity: 0 }}
       transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-      className={`fixed right-0 top-0 h-screen bg-dark-900/95 backdrop-blur-xl border-l border-dark-700/50 z-40 flex flex-col shadow-2xl ${
-        expanded ? 'w-full md:w-[600px]' : 'w-full md:w-[420px]'
+      className={`fixed right-0 top-0 h-screen bg-dark-900/95 backdrop-blur-xl border-l border-dark-700/50 z-[60] flex flex-col shadow-2xl ${
+        expanded ? 'w-full lg:w-[600px]' : 'w-full sm:w-[380px] lg:w-[420px]'
       }`}
     >
       {/* Header */}

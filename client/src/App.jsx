@@ -10,6 +10,7 @@ import { api } from './config';
 function App() {
   const [activeView, setActiveView] = useState('overview');
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [emissionsData, setEmissionsData] = useState(null);
   const [loading, setLoading] = useState(true);
   
@@ -83,14 +84,19 @@ function App() {
       <div className="fixed bottom-0 right-1/4 w-96 h-96 bg-lens-600/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Sidebar */}
-      <Sidebar activeView={activeView} setActiveView={setActiveView} />
+      <Sidebar 
+        activeView={activeView} 
+        setActiveView={setActiveView}
+        isOpen={isSidebarOpen}
+        setIsOpen={setIsSidebarOpen}
+      />
 
       {/* Main Content */}
-      <main className="flex-1 ml-64 min-h-screen relative">
+      <main className="flex-1 lg:ml-64 min-h-screen relative pt-16 lg:pt-0">
         {/* Year Filter Header */}
-        <div className="sticky top-0 z-40 bg-dark-950/80 backdrop-blur-lg border-b border-dark-800/50">
-          <div className="px-8 py-4 flex items-center justify-between">
-            <div className="text-sm text-dark-400">
+        <div className="sticky top-16 lg:top-0 z-30 bg-dark-950/80 backdrop-blur-lg border-b border-dark-800/50">
+          <div className="px-4 lg:px-8 py-3 lg:py-4 flex items-center justify-between">
+            <div className="text-sm text-dark-400 hidden sm:block">
               {emissionsData?.summary?.source && (
                 <span className="px-2 py-1 bg-lens-500/20 text-lens-300 rounded-full text-xs">
                   {emissionsData.summary.source}
@@ -117,7 +123,7 @@ function App() {
       {/* Chat Toggle Button */}
       <motion.button
         onClick={() => setIsChatOpen(!isChatOpen)}
-        className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 ${
+        className={`fixed bottom-4 right-4 lg:bottom-6 lg:right-6 z-50 w-12 h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 ${
           isChatOpen 
             ? 'bg-dark-700 text-dark-300 hover:bg-dark-600' 
             : 'bg-gradient-lens text-white glow hover:scale-110'

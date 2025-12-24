@@ -24,7 +24,7 @@ export default function Dashboard({ activeView, data, loading, yearRange, onYear
   }
 
   return (
-    <div className="min-h-screen p-8 pt-4">
+    <div className="min-h-screen p-4 lg:p-8 pt-4">
       <AnimatePresence mode="wait">
         <motion.div
           key={activeView}
