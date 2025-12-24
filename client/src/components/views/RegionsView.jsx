@@ -102,7 +102,7 @@ export default function RegionsView({ data }) {
             <div className="mt-3 h-2 rounded-full bg-dark-700 overflow-hidden">
               <motion.div
                 initial={{ width: 0 }}
-                animate={{ width: `${region.percentage * 2}%` }}
+                animate={{ width: `${region.percentage}%` }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="h-full rounded-full"
                 style={{ backgroundColor: region.color }}

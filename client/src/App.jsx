@@ -14,7 +14,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   
   // Year filter state
-  const [yearRange, setYearRange] = useState({ since: 2023, to: 2023 });
+  const [yearRange, setYearRange] = useState({ since: 2025, to: 2025 });
   const [availableYears, setAvailableYears] = useState([]);
 
   // Fetch available years on mount
@@ -31,10 +31,10 @@ function App() {
     try {
       const response = await fetch(api.emissions.years);
       const data = await response.json();
-      setAvailableYears(data.availableYears || [2019, 2020, 2021, 2022, 2023]);
+      setAvailableYears(data.availableYears || [2019, 2020, 2021, 2022, 2023, 2024, 2025]);
     } catch (error) {
       console.error('Failed to fetch years:', error);
-      setAvailableYears([2019, 2020, 2021, 2022, 2023]);
+      setAvailableYears([2019, 2020, 2021, 2022, 2023, 2024, 2025]);
     }
   };
 

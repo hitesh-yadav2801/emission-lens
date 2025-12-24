@@ -197,10 +197,10 @@ emissionsRouter.get('/definitions/sectors', async (req, res) => {
 
 emissionsRouter.get('/years', async (req, res) => {
   res.json({
-    availableYears: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023],
-    defaultYear: 2023,
+    availableYears: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025],
+    defaultYear: 2025,
     minYear: 2015,
-    maxYear: 2023
+    maxYear: 2025
   });
 });
 

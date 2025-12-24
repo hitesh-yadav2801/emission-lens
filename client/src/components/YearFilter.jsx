@@ -151,13 +151,14 @@ export default function YearFilter({ yearRange, availableYears, onChange }) {
                 <div className="flex gap-2">
                   <button
                     onClick={() => {
-                      onChange({ since: 2023, to: 2023 });
+                      const maxYear = Math.max(...availableYears);
+                      onChange({ since: maxYear, to: maxYear });
                       setIsOpen(false);
                     }}
                     className="px-3 py-1.5 bg-dark-700 text-dark-300 hover:bg-dark-600 
                       hover:text-white rounded-lg text-xs font-medium transition-colors"
                   >
-                    Latest (2023)
+                    Latest ({Math.max(...availableYears)})
                   </button>
                   <button
                     onClick={() => {
@@ -174,7 +175,8 @@ export default function YearFilter({ yearRange, availableYears, onChange }) {
                   </button>
                   <button
                     onClick={() => {
-                      onChange({ since: 2019, to: 2023 });
+                      const maxYear = Math.max(...availableYears);
+                      onChange({ since: maxYear - 4, to: maxYear });
                       setMode('range');
                       setIsOpen(false);
                     }}
