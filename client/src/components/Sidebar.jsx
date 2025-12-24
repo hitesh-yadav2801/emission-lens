@@ -1,0 +1,116 @@
+import { motion } from 'framer-motion';
+import { 
+  LayoutDashboard, 
+  Factory, 
+  TrendingUp, 
+  Globe2, 
+  Leaf,
+  Search,
+  Settings,
+  HelpCircle,
+  Flame
+} from 'lucide-react';
+
+const menuItems = [
+  { id: 'overview', label: 'Overview', icon: LayoutDashboard },
+  { id: 'industries', label: 'Industries', icon: Factory },
+  { id: 'trends', label: 'Trends', icon: TrendingUp },
+  { id: 'regions', label: 'Regions', icon: Globe2 },
+  { id: 'gases', label: 'All Gases', icon: Flame },
+  { id: 'insights', label: 'Web Insights', icon: Search },
+];
+
+const bottomItems = [
+  { id: 'help', label: 'Help', icon: HelpCircle },
+  { id: 'settings', label: 'Settings', icon: Settings },
+];
+
+export default function Sidebar({ activeView, setActiveView }) {
+  return (
+    <motion.aside
+      initial={{ x: -264 }}
+      animate={{ x: 0 }}
+      className="fixed left-0 top-0 h-screen w-64 bg-dark-900/80 backdrop-blur-xl border-r border-dark-700/50 flex flex-col z-40"
+    >
+      {/* Logo */}
+      <div className="p-6 border-b border-dark-700/50">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-gradient-lens flex items-center justify-center glow-sm">
+            <Leaf className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <h1 className="font-display font-bold text-xl text-white">
+              Emission<span className="text-gradient">Lens</span>
+            </h1>
+            <p className="text-xs text-dark-400 font-medium">Analytics Dashboard</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Navigation */}
+      <nav className="flex-1 p-4 space-y-1">
+        <p className="text-xs font-semibold text-dark-500 uppercase tracking-wider px-3 mb-3">
+          Dashboard
+        </p>
+        {menuItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = activeView === item.id;
+
+          return (
+            <motion.button
+              key={item.id}
+              onClick={() => setActiveView(item.id)}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
+                isActive
+                  ? 'bg-lens-500/10 text-lens-400 border border-lens-500/20'
+                  : 'text-dark-300 hover:text-white hover:bg-dark-800/50'
+              }`}
+              whileHover={{ x: 4 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Icon size={18} className={isActive ? 'text-lens-400' : ''} />
+              {item.label}
+              {isActive && (
+                <motion.div
+                  layoutId="activeTab"
+                  className="ml-auto w-1.5 h-1.5 rounded-full bg-lens-400"
+                />
+              )}
+            </motion.button>
+          );
+        })}
+      </nav>
+
+      {/* Bottom Section */}
+      <div className="p-4 border-t border-dark-700/50 space-y-1">
+        {bottomItems.map((item) => {
+          const Icon = item.icon;
+          return (
+            <button
+              key={item.id}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-dark-400 hover:text-white hover:bg-dark-800/50 transition-all duration-200"
+            >
+              <Icon size={18} />
+              {item.label}
+            </button>
+          );
+        })}
+        
+        {/* User info */}
+        <div className="mt-4 p-3 rounded-xl bg-dark-800/50 border border-dark-700/30">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-gradient-lens flex items-center justify-center text-white text-sm font-semibold">
+              E
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-white truncate">Environment Analyst</p>
+              <p className="text-xs text-dark-400">Pro Plan</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.aside>
+  );
+}
+
+
