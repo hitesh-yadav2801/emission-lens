@@ -170,6 +170,3 @@ The AI service is modular. To add a new provider:
 3. Register in `server/services/ai/index.js`
 4. Set `AI_PROVIDER=newprovider` in `.env`
 
-## License
-
-MIT
