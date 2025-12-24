@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import { Flame, Wind, Droplets, Atom, TrendingUp, Globe } from 'lucide-react';
+import { api } from '../../config';
 
 const GAS_COLORS = {
   co2: '#64748b',
@@ -38,7 +39,7 @@ export default function GasesView({ yearRange, onYearChange }) {
         limit: 30
       });
       
-      const response = await fetch(`/api/emissions/gases?${params}`);
+      const response = await fetch(`${api.emissions.gases}?${params}`);
       const result = await response.json();
       setData(result);
     } catch (error) {

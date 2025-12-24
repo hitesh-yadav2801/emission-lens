@@ -18,6 +18,7 @@ export const api = {
     trends: `${API_URL}/api/emissions/trends`,
     byRegion: `${API_URL}/api/emissions/by-region`,
     countries: `${API_URL}/api/emissions/countries`,
+    gases: `${API_URL}/api/emissions/gases`,
   }
 };
 
