@@ -285,23 +285,23 @@ export default function IndustriesView({ data }) {
                   title={`${selectedIndustry} Overview`} 
                   subtitle="Key metrics from Climate TRACE"
                 >
-                  <div className="grid grid-cols-2 gap-4 h-full pt-4">
-                    <div className="p-4 rounded-xl bg-dark-800/50 border border-dark-700/30">
-                      <p className="text-dark-400 text-sm mb-1">Total Emissions</p>
-                      <p className="text-2xl font-bold text-white">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-4">
+                    <div className="p-3 sm:p-4 rounded-xl bg-dark-800/50 border border-dark-700/30">
+                      <p className="text-dark-400 text-xs sm:text-sm mb-1">Total Emissions</p>
+                      <p className="text-xl sm:text-2xl font-bold text-white">
                         {((industryInfo?.totalEmissions || industryInfo?.emissions || 0) / 1000).toFixed(1)}K
-                        <span className="text-sm font-normal text-dark-400 ml-1">MT</span>
+                        <span className="text-xs sm:text-sm font-normal text-dark-400 ml-1">MT</span>
                       </p>
                     </div>
-                    <div className="p-4 rounded-xl bg-dark-800/50 border border-dark-700/30">
-                      <p className="text-dark-400 text-sm mb-1">Global Share</p>
-                      <p className="text-2xl font-bold" style={{ color: industryInfo?.color }}>
+                    <div className="p-3 sm:p-4 rounded-xl bg-dark-800/50 border border-dark-700/30">
+                      <p className="text-dark-400 text-xs sm:text-sm mb-1">Global Share</p>
+                      <p className="text-xl sm:text-2xl font-bold" style={{ color: industryInfo?.color }}>
                         {industryInfo?.percentage || 0}%
                       </p>
                     </div>
-                    <div className="col-span-2 p-4 rounded-xl bg-dark-800/50 border border-dark-700/30">
-                      <p className="text-dark-400 text-sm mb-2">Sub-sectors Tracked</p>
-                      <p className="text-white font-medium">
+                    <div className="sm:col-span-2 p-3 sm:p-4 rounded-xl bg-dark-800/50 border border-dark-700/30">
+                      <p className="text-dark-400 text-xs sm:text-sm mb-1 sm:mb-2">Sub-sectors Tracked</p>
+                      <p className="text-white font-medium text-sm sm:text-base">
                         {industrySectors.length > 0 
                           ? `${industrySectors.length} sectors contributing to ${selectedIndustry}`
                           : 'Aggregated industry data from Climate TRACE'
@@ -309,11 +309,11 @@ export default function IndustriesView({ data }) {
                       </p>
                     </div>
                     {industrySectors.length > 0 && industrySectors[0] && (
-                      <div className="col-span-2 p-4 rounded-xl bg-dark-800/50 border border-dark-700/30">
-                        <p className="text-dark-400 text-sm mb-2">Largest Sector</p>
-                        <div className="flex items-center justify-between">
-                          <span className="text-white font-medium">{industrySectors[0].name}</span>
-                          <span className="text-lens-400 font-mono">
+                      <div className="sm:col-span-2 p-3 sm:p-4 rounded-xl bg-dark-800/50 border border-dark-700/30">
+                        <p className="text-dark-400 text-xs sm:text-sm mb-1 sm:mb-2">Largest Sector</p>
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-white font-medium text-sm sm:text-base">{industrySectors[0].name}</span>
+                          <span className="text-lens-400 font-mono text-sm sm:text-base whitespace-nowrap">
                             {industrySectors[0].emissions?.toLocaleString() || 0} MT
                           </span>
                         </div>

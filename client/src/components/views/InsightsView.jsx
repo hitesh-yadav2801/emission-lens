@@ -88,8 +88,38 @@ export default function InsightsView() {
 
       {/* Search Box */}
       <motion.div variants={itemVariants}>
-        <div className="glass rounded-2xl p-6">
-          <div className="relative">
+        <div className="glass rounded-2xl p-4 sm:p-6">
+          {/* Mobile: Stacked layout */}
+          <div className="flex flex-col sm:hidden gap-3">
+            <div className="relative">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2">
+                {loading ? (
+                  <Loader2 className="w-5 h-5 text-lens-400 animate-spin" />
+                ) : (
+                  <Search className="w-5 h-5 text-dark-400" />
+                )}
+              </div>
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Search emissions insights..."
+                className="w-full pl-12 pr-4 py-4 bg-dark-800/50 border border-dark-700/50 rounded-xl text-white placeholder-dark-500 focus:outline-none focus:border-lens-500/50 focus:ring-1 focus:ring-lens-500/20 transition-all"
+              />
+            </div>
+            <button
+              onClick={() => handleSearch()}
+              disabled={loading || !query.trim()}
+              className="w-full px-4 py-3 bg-gradient-lens text-white font-medium rounded-xl hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+            >
+              <Sparkles size={16} />
+              Search Web
+            </button>
+          </div>
+
+          {/* Tablet/Desktop: Inline layout */}
+          <div className="hidden sm:block relative">
             <div className="absolute left-4 top-1/2 -translate-y-1/2">
               {loading ? (
                 <Loader2 className="w-5 h-5 text-lens-400 animate-spin" />
@@ -103,7 +133,7 @@ export default function InsightsView() {
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Search for emissions insights, news, and research..."
-              className="w-full pl-12 pr-32 py-4 bg-dark-800/50 border border-dark-700/50 rounded-xl text-white placeholder-dark-500 focus:outline-none focus:border-lens-500/50 focus:ring-1 focus:ring-lens-500/20 transition-all"
+              className="w-full pl-12 pr-36 py-4 bg-dark-800/50 border border-dark-700/50 rounded-xl text-white placeholder-dark-500 focus:outline-none focus:border-lens-500/50 focus:ring-1 focus:ring-lens-500/20 transition-all"
             />
             <button
               onClick={() => handleSearch()}
