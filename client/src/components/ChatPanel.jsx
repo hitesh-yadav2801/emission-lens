@@ -9,7 +9,9 @@ import {
   Loader2,
   Trash2,
   Maximize2,
-  Minimize2
+  Minimize2,
+  ArrowLeft,
+  X
 } from 'lucide-react';
 import { api } from '../config';
 
@@ -98,12 +100,19 @@ export default function ChatPanel({ onClose }) {
       exit={{ x: '100%', opacity: 0 }}
       transition={{ type: 'spring', damping: 25, stiffness: 200 }}
       className={`fixed right-0 top-0 h-screen bg-dark-900/95 backdrop-blur-xl border-l border-dark-700/50 z-[60] flex flex-col shadow-2xl ${
-        expanded ? 'w-full lg:w-[600px]' : 'w-full sm:w-[380px] lg:w-[420px]'
+        expanded ? 'w-full md:w-[500px] lg:w-[600px]' : 'w-full sm:w-[340px] md:w-[380px] lg:w-[420px]'
       }`}
     >
       {/* Header */}
       <div className="p-4 border-b border-dark-700/50 flex items-center justify-between">
         <div className="flex items-center gap-3">
+          {/* Back/Close button for mobile */}
+          <button
+            onClick={onClose}
+            className="sm:hidden p-2 -ml-2 text-dark-400 hover:text-white hover:bg-dark-800 rounded-lg transition-colors"
+          >
+            <ArrowLeft size={20} />
+          </button>
           <div className="w-10 h-10 rounded-xl bg-gradient-lens flex items-center justify-center glow-sm">
             <Sparkles className="w-5 h-5 text-white" />
           </div>
@@ -113,9 +122,16 @@ export default function ChatPanel({ onClose }) {
           </div>
         </div>
         <div className="flex items-center gap-2">
+          {/* Close button for tablet/desktop */}
+          <button
+            onClick={onClose}
+            className="hidden sm:flex p-2 text-dark-400 hover:text-white hover:bg-dark-800 rounded-lg transition-colors"
+          >
+            <X size={18} />
+          </button>
           <button
             onClick={() => setExpanded(!expanded)}
-            className="p-2 text-dark-400 hover:text-white hover:bg-dark-800 rounded-lg transition-colors"
+            className="hidden md:flex p-2 text-dark-400 hover:text-white hover:bg-dark-800 rounded-lg transition-colors"
           >
             {expanded ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
           </button>

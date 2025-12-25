@@ -59,8 +59,8 @@ export default function YearFilter({ yearRange, availableYears, onChange }) {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="absolute right-0 top-full mt-2 z-50 bg-dark-800 border border-dark-700 
-                rounded-xl shadow-xl overflow-hidden min-w-[280px]"
+              className="absolute left-0 sm:left-auto sm:right-0 top-full mt-2 z-50 bg-dark-800 border border-dark-700 
+                rounded-xl shadow-xl overflow-hidden min-w-[280px] max-w-[calc(100vw-2rem)]"
             >
               {/* Mode Toggle */}
               <div className="p-3 border-b border-dark-700">
