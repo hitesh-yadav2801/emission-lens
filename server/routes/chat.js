@@ -47,22 +47,23 @@ async function buildDataContext() {
     const topCountries = data.topCountries.slice(0, 10);
     
     return `
-Data Source: Climate TRACE (Real-time API)
-Data Year: ${data.year}
-Last Updated: ${data.lastUpdated}
+=== LIVE DATA FROM CLIMATE TRACE API ===
+Data Year: ${data.year} | Last Updated: ${data.lastUpdated}
 
-Global CO2 Emissions: ${data.worldTotals.co2.toLocaleString()} Million Tonnes
-Total Countries Tracked: ${data.countries.length}
+GLOBAL TOTAL: ${data.worldTotals.co2.toLocaleString()} Million Tonnes CO2
+Countries Tracked: ${data.countries.length}
 
-Top 10 Emitting Countries:
-${topCountries.map((c, i) => `${i + 1}. ${c.name} (${c.country}): ${c.emissions.co2.toLocaleString()} MT CO2 (${c.share?.toFixed(1)}% of global)`).join('\n')}
+TOP 10 EMITTING COUNTRIES:
+${topCountries.map((c, i) => `${i + 1}. ${c.name}: ${c.emissions.co2.toLocaleString()} MT (${c.share?.toFixed(1)}% global share)`).join('\n')}
 
-Regional Breakdown:
-${regionalData.regions.map(r => `- ${r.name}: ${r.emissions.toLocaleString()} MT (${r.percentage}%)`).join('\n')}
+REGIONAL EMISSIONS:
+${regionalData.regions.map(r => `• ${r.name}: ${r.emissions.toLocaleString()} MT (${r.percentage}%)`).join('\n')}
+
+NOTE: This is country-level data. For city/state-level questions, use your training knowledge to provide helpful estimates and context.
 `;
   } catch (error) {
     console.error('Failed to fetch emissions context:', error.message);
-    return 'Note: Real-time emissions data is temporarily unavailable. Answer based on general environmental knowledge.';
+    return 'Live data temporarily unavailable. Use your training knowledge to answer environmental questions.';
   }
 }
 
@@ -110,10 +111,10 @@ chatRouter.post('/', async (req, res) => {
     // Generate response using AI service
     const result = await aiService.chat({
       systemPrompt,
-      messages: validHistory.slice(-20), // Keep last 20 messages for context
+      messages: validHistory.slice(-20),
       userMessage,
-      maxTokens: 1200,
-      temperature: 0.7
+      maxTokens: 1500,
+      temperature: 0.75
     });
 
     // Return response
