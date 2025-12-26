@@ -7,12 +7,29 @@ import YearFilter from './components/YearFilter';
 import { MessageCircle, X } from 'lucide-react';
 import { api } from './config';
 
+// Helper to handle API responses with rate limit detection
+async function fetchWithRateLimit(url) {
+  const response = await fetch(url);
+  
+  if (response.status === 429) {
+    const error = await response.json();
+    throw new Error(error.message || 'Rate limit exceeded. Please wait a moment.');
+  }
+  
+  if (!response.ok) {
+    throw new Error(`API error: ${response.status}`);
+  }
+  
+  return response.json();
+}
+
 function App() {
   const [activeView, setActiveView] = useState('overview');
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [emissionsData, setEmissionsData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   
   // Year filter state
   const [yearRange, setYearRange] = useState({ since: 2025, to: 2025 });
@@ -41,6 +58,7 @@ function App() {
 
   const fetchEmissionsData = useCallback(async () => {
     setLoading(true);
+    setError(null);
     try {
       const params = new URLSearchParams({
         since: yearRange.since,
@@ -48,12 +66,12 @@ function App() {
       });
 
       const [summary, industries, sectors, trends, regions, countries] = await Promise.all([
-        fetch(`${api.emissions.summary}?${params}`).then(r => r.json()),
-        fetch(`${api.emissions.byIndustry}?${params}`).then(r => r.json()),
-        fetch(`${api.emissions.bySector}?${params}`).then(r => r.json()),
-        fetch(`${api.emissions.trends}?startYear=${Math.min(...availableYears) || 2019}&endYear=${yearRange.to}`).then(r => r.json()),
-        fetch(`${api.emissions.byRegion}?${params}`).then(r => r.json()),
-        fetch(`${api.emissions.countries}?${params}&limit=20`).then(r => r.json()),
+        fetchWithRateLimit(`${api.emissions.summary}?${params}`),
+        fetchWithRateLimit(`${api.emissions.byIndustry}?${params}`),
+        fetchWithRateLimit(`${api.emissions.bySector}?${params}`),
+        fetchWithRateLimit(`${api.emissions.trends}?startYear=${Math.min(...availableYears) || 2019}&endYear=${yearRange.to}`),
+        fetchWithRateLimit(`${api.emissions.byRegion}?${params}`),
+        fetchWithRateLimit(`${api.emissions.countries}?${params}&limit=20`),
       ]);
 
       setEmissionsData({
@@ -65,8 +83,9 @@ function App() {
         topCountries: regions.topCountries || [],
         countries,
       });
-    } catch (error) {
-      console.error('Failed to fetch emissions data:', error);
+    } catch (err) {
+      console.error('Failed to fetch emissions data:', err);
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -115,6 +134,7 @@ function App() {
           activeView={activeView} 
           data={emissionsData} 
           loading={loading}
+          error={error}
           yearRange={yearRange}
           onYearChange={handleYearChange}
         />

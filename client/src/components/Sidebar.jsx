@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   LayoutDashboard, 
@@ -28,12 +29,19 @@ const bottomItems = [
 ];
 
 export default function Sidebar({ activeView, setActiveView, isOpen, setIsOpen }) {
+  const [showToast, setShowToast] = useState(false);
+
   const handleNavClick = (id) => {
     setActiveView(id);
     // Close sidebar on mobile after navigation
     if (window.innerWidth < 1024) {
       setIsOpen(false);
     }
+  };
+
+  const handleComingSoon = () => {
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 2000);
   };
 
   return (
@@ -133,6 +141,7 @@ export default function Sidebar({ activeView, setActiveView, isOpen, setIsOpen }
           return (
             <button
               key={item.id}
+              onClick={handleComingSoon}
               className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-dark-400 hover:text-white hover:bg-dark-800/50 transition-all duration-200"
             >
               <Icon size={18} />
@@ -142,18 +151,34 @@ export default function Sidebar({ activeView, setActiveView, isOpen, setIsOpen }
         })}
         
         {/* User info */}
-        <div className="mt-4 p-3 rounded-xl bg-dark-800/50 border border-dark-700/30">
+        <button 
+          onClick={handleComingSoon}
+          className="mt-4 w-full p-3 rounded-xl bg-dark-800/50 border border-dark-700/30 hover:border-lens-500/30 hover:bg-dark-800 transition-all duration-200"
+        >
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-gradient-lens flex items-center justify-center text-white text-sm font-semibold">
               E
             </div>
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 text-left">
               <p className="text-sm font-medium text-white truncate">Environment Analyst</p>
-              <p className="text-xs text-dark-400">Pro Plan</p>
             </div>
           </div>
-        </div>
+        </button>
       </div>
+
+      {/* Coming Soon Toast */}
+      <AnimatePresence>
+        {showToast && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 lg:left-32 lg:translate-x-0 z-[100] px-4 py-2.5 bg-dark-800 border border-dark-600 rounded-xl shadow-xl"
+          >
+            <p className="text-sm text-white font-medium">🚀 Coming Soon!</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.aside>
     </>
   );

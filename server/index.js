@@ -8,12 +8,19 @@ dotenv.config();
 
 import express from 'express';
 import cors from 'cors';
-import emissionsRouter from './routes/emissions.js';
-import chatRouter from './routes/chat.js';
-import searchRouter from './routes/search.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { existsSync } from 'fs';
+
+// Routes
+import emissionsRouter from './routes/emissions.js';
+import chatRouter from './routes/chat.js';
+import searchRouter from './routes/search.js';
+
+// Middleware
+import { chatLimiter, searchLimiter, emissionsLimiter, healthLimiter } from './middleware/rateLimiter.js';
+
+// Services
 import { initializeCountryNames } from './services/emissionsApi.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -35,12 +42,12 @@ app.use(cors({
 app.use(express.json());
 
 // API Routes
-app.use('/api/emissions', emissionsRouter);
-app.use('/api/chat', chatRouter);
-app.use('/api/search', searchRouter);
+app.use('/api/emissions', emissionsLimiter, emissionsRouter);
+app.use('/api/chat', chatLimiter, chatRouter);
+app.use('/api/search', searchLimiter, searchRouter);
 
 // Health check
-app.get('/api/health', (req, res) => {
+app.get('/api/health', healthLimiter, (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 

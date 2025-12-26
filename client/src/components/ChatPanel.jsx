@@ -64,7 +64,28 @@ export default function ChatPanel({ onClose }) {
 
       const data = await response.json();
       
-      // Handle response 
+      // Handle rate limit (429)
+      if (response.status === 429) {
+        const retryAfter = data.retryAfter || 60;
+        setMessages(prev => [...prev, {
+          role: 'assistant',
+          content: `⏳ **Quota Exceeded**\n\nYou've sent too many messages. Please wait **${retryAfter} seconds** before trying again.\n\nThis helps us manage server costs and ensure fair usage for everyone.`,
+          isRateLimited: true
+        }]);
+        return;
+      }
+      
+      // Handle other errors
+      if (!response.ok) {
+        setMessages(prev => [...prev, {
+          role: 'assistant',
+          content: data.message || 'Something went wrong. Please try again.',
+          isUnavailable: true
+        }]);
+        return;
+      }
+      
+      // Handle successful response 
       setMessages(prev => [...prev, {
         role: 'assistant',
         content: data.response || 'Something went wrong. Please try again.',
